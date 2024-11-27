@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Grid,
-  Tabs,
-  Tab,
-  Box,
-  Typography
-} from '@material-ui/core';
+import { Grid, Tabs, Tab, Box, Typography } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
@@ -26,7 +20,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import { toast } from 'react-toastify';
 import history from '../../history';
-import axios from "axios";
+import axios from 'axios';
 
 import { ButtonElem } from '@tridyme/react-components';
 import { InputElem } from '@tridyme/react-components';
@@ -61,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   tableTitle: {
     marginLeft: '0.5rem',
     fontSize: '16px',
-    fontWeight: 'bolder'
+    fontWeight: 'bolder',
   },
   overlay: {
     position: 'fixed',
@@ -109,88 +103,91 @@ const {
   REACT_APP_PLATFORM_API_URL,
   REACT_APP_PLATFORM_URL,
   REACT_APP_PLATFORM_API_TOKEN,
-  REACT_APP_APPLICATION_ID
+  REACT_APP_APPLICATION_ID,
 } = process.env;
 
 function RectangularSectionAnalysis({ match }) {
   const classes = useStyles();
   // const { modelId } = match.params;
-  const user = JSON.parse(localStorage.getItem("user"))
-  let userId
+  const user = JSON.parse(localStorage.getItem('user'));
+  let userId;
   if (user != null) {
-    userId = user["_id"];
+    userId = user['_id'];
   }
   const [values, setValues] = React.useState({
-    tab: "1"
+    tab: '1',
   });
-
 
   const [state, setState] = useState(initialState);
   const [tab, setTab] = useState(0);
   const [loading, setLoading] = useState(true);
   const [modelId, setModelId] = useState(match.params?.modelId);
+  const [data, setData] = useState();
 
   useEffect(() => {
     const init = async () => {
       let actualState = {};
-      console.log("initialState.data", initialState.data)
-      console.log('modelId', modelId)
+      console.log('initialState.data', initialState.data);
+      console.log('modelId', modelId);
       if (modelId) {
         const model = await handleGetModel(modelId);
-        console.log("MODEL", model)
+        console.log('MODEL', model);
         actualState = model.data;
       } else {
         actualState = initialState;
       }
-      console.log("actualState", actualState)
-      const calculatedData = new RectangularSection(actualState.data).analysis();
+      console.log('actualState', actualState);
+      const calculatedData = new RectangularSection(
+        actualState.data,
+      ).analysis();
       const updatedState = {
         ...actualState,
         data: {
           ...actualState.data,
-          ...calculatedData
-        }
-      }
-      console.log("updatedState", updatedState)
+          ...calculatedData,
+        },
+      };
+      console.log('updatedState', updatedState);
       setState(updatedState);
-      setLoading(false)
-    }
+      setLoading(false);
+    };
     init();
   }, []);
 
   const handleGetModel = async (modelId) => {
     try {
-      const { data } = await axios.get(`${REACT_APP_PLATFORM_API_URL}/models/${modelId}`);
-      console.log('{ data }', { data })
+      const { data } = await axios.get(
+        `${REACT_APP_PLATFORM_API_URL}/models/${modelId}`,
+      );
+      console.log('{ data }', { data });
       return data;
     } catch (err) {
       console.log('error when get models: ', err);
       return [];
     }
-  }
-
+  };
 
   const handleChangeProjectData = (prop) => (event) => {
     const newData = {
       ...state.data,
       [prop]: {
         ...state.data[prop],
-        value: event.target.value
-      }
-    }
+        value: event.target.value,
+      },
+    };
     const updatedState = {
       ...state,
       data: {
         ...state.data,
-        ...newData
-      }
-    }
+        ...newData,
+      },
+    };
 
     setState(updatedState);
   };
 
   const saveAnalysis = async () => {
-    console.log('STATE', state)
+    console.log('STATE', state);
     // const platform = new Platform();
     // const data = state;
     try {
@@ -198,41 +195,47 @@ function RectangularSectionAnalysis({ match }) {
         project: null,
         name: state.data.projet.value,
         application: `${REACT_APP_APPLICATION_ID}`,
-        applicationName: "Dalle",
+        applicationName: 'Dalle',
         data: state,
         user: String(userId),
-      }
+      };
 
       if (modelId) {
         const updatedModel = { _id: modelId, ...model };
-        const { data } = await axios.post(`${REACT_APP_PLATFORM_API_URL}/models/updateModel`, updatedModel)
+        const { data } = await axios.post(
+          `${REACT_APP_PLATFORM_API_URL}/models/updateModel`,
+          updatedModel,
+        );
         console.log('Model updated', data);
-      }
-      else {
+      } else {
         const newModel = model;
-        const { data } = await axios.post(`${REACT_APP_PLATFORM_API_URL}/models/addModel`, newModel)
-        const newModelId = data._id
-        history.push(`/applications/ID${REACT_APP_APPLICATION_ID}/models/${newModelId}`)
+        const { data } = await axios.post(
+          `${REACT_APP_PLATFORM_API_URL}/models/addModel`,
+          newModel,
+        );
+        const newModelId = data._id;
+        history.push(
+          `/applications/ID${REACT_APP_APPLICATION_ID}/models/${newModelId}`,
+        );
         setModelId(newModelId);
         console.log('Model added', data);
       }
-      toast.success("Projet enregistré", { autoClose: 3000 })
+      toast.success('Projet enregistré', { autoClose: 3000 });
     } catch (err) {
       console.log(err);
       console.log('Model not saved');
-      toast.error("Erreur : Projet Non enregistré", { autoClose: 3000 })
+      toast.error('Erreur : Projet Non enregistré', { autoClose: 3000 });
     }
-  }
-
+  };
 
   const handleChangeState = (prop) => (event) => {
-    console.log('event.target.type', event.target.type)
+    console.log('event.target.type', event.target.type);
     const newData = {
       ...state.data,
       [prop]: {
         ...state.data[prop],
-        value: Number(event.target.value)
-      }
+        value: Number(event.target.value),
+      },
     };
     const calculatedData = new RectangularSection(newData).analysis();
 
@@ -240,38 +243,90 @@ function RectangularSectionAnalysis({ match }) {
       ...state,
       data: {
         ...newData,
-        ...calculatedData
-      }
-    }
-    console.log('updatedState ', updatedState)
+        ...calculatedData,
+      },
+    };
+    console.log('updatedState ', updatedState);
     setState(updatedState);
   };
 
   const handleChangeTab = (event, newTab) => {
     setTab(newTab);
-    console.log('tab', tab)
+    console.log('tab', tab);
+  };
+
+  const handleGetData = async () => {
+    try {
+      const url = 'http://localhost:8000/api/data';
+      const response = await fetch(url, { method: 'GET' });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log('DATA', data);
+    } catch (err) {
+      console.log('ERROR');
+    }
+  };
+
+  const handlePostAnalysis = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/api/analysis', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(state), // Envoie l'état en JSON
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log('RESULTAT', result); // Traitez le résultat comme nécessaire
+    } catch (err) {
+      console.log("Erreur lors de l'envoi de l'état:", err);
+    }
   };
 
   return (
     <Grid container spacing={3}>
       <Grid item xs={12}>
+        <Button onClick={handleGetData}>API</Button>
+        <Button onClick={handlePostAnalysis}>CALCUL</Button>
         <CardElem
           elevation={0}
-          title={<ListItem>
-            <ListItemAvatar>
-              <Avatar
-                alt={`EC2-Ferraillage`}
-                src={AppIcon}
-                style={{ borderRadius: '0%', cursor: "pointer", height: "2.5em", width: "2.5em", backgroundColor: "#E6F3FC", borderRadius: "50px" }}
+          title={
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar
+                  alt={`EC2-Ferraillage`}
+                  src={AppIcon}
+                  style={{
+                    borderRadius: '0%',
+                    cursor: 'pointer',
+                    height: '2.5em',
+                    width: '2.5em',
+                    backgroundColor: '#E6F3FC',
+                    borderRadius: '50px',
+                  }}
+                />
+              </ListItemAvatar>
+              <ListItemText
+                primary={
+                  <Typography variant="h5" component="h2">
+                    EC2-Ferraillage
+                  </Typography>
+                }
               />
-            </ListItemAvatar>
-            <ListItemText primary={<Typography variant="h5" component="h2">EC2-Ferraillage</Typography>} />
-          </ListItem>}
+            </ListItem>
+          }
         >
           <Grid container spacing={3}>
-            {userId &&
+            {userId && (
               <>
-                <Grid item sm={6} style={{ textAlign: "left" }}>
+                <Grid item sm={6} style={{ textAlign: 'left' }}>
                   <FormControl className={classes.margin}>
                     {/* <Input
                       id="input-with-icon-adornment"
@@ -282,25 +337,42 @@ function RectangularSectionAnalysis({ match }) {
                       onChange={handleChangeProjectData("projet")}
                     /> */}
                     <InputElem
-                      data={{ description: 'Nom de l\'affaire', value: state.data.projet.value }}
-                      onChange={handleChangeProjectData("projet")}
-                      props={{ disableUnderline: true, disableInputAdornment: true }}
-                      style={{ color: "#0082DE", }}
+                      data={{
+                        description: "Nom de l'affaire",
+                        value: state.data.projet.value,
+                      }}
+                      onChange={handleChangeProjectData('projet')}
+                      props={{
+                        disableUnderline: true,
+                        disableInputAdornment: true,
+                      }}
+                      style={{ color: '#0082DE' }}
                     />
                   </FormControl>
                 </Grid>
-                <Grid item sm={6} style={{ textAlign: "right" }}>
+                <Grid item sm={6} style={{ textAlign: 'right' }}>
                   {/* <Button variant="contained" onClick={saveAnalysis} style={{ borderRadius: "0px", backgroundColor: "#FFFFFF", color: "#0082DE", margin: "1em", textTransform: 'none' }}>Sauvegarder</Button> */}
-                  <ButtonElem label={"Sauvegarder"} onClick={saveAnalysis} style={{ borderRadius: "0px", backgroundColor: "#FFFFFF", color: "#0082DE", margin: "1em", textTransform: 'none' }} />
+                  <ButtonElem
+                    label={'Sauvegarder'}
+                    onClick={saveAnalysis}
+                    style={{
+                      borderRadius: '0px',
+                      backgroundColor: '#FFFFFF',
+                      color: '#0082DE',
+                      margin: '1em',
+                      textTransform: 'none',
+                    }}
+                  />
                 </Grid>
               </>
-            }
+            )}
             <Grid item xs={12}>
               {/* <TabContext value={values.tab} > */}
-              <div style={{
-                flexGrow: 1,
-                width: '100%'
-              }}
+              <div
+                style={{
+                  flexGrow: 1,
+                  width: '100%',
+                }}
               >
                 <Tabs
                   value={tab}
@@ -316,24 +388,32 @@ function RectangularSectionAnalysis({ match }) {
                   {/* <Tab label="Résultats"/> */}
                   <Tab label="Aperçu" {...a11yProps(3)} />
                 </Tabs>
-                {loading && userId ?
+                {loading && userId ? (
                   <div className={classes.overlay}>
                     <CircularProgress />
                   </div>
-                  :
+                ) : (
                   <></>
-                }
+                )}
 
                 <TabPanel value={tab} index={0}>
                   <Hypotheses />
                 </TabPanel>
 
                 <TabPanel value={tab} index={1}>
-                  <Saisie state={state} setState={setState} handleChange={handleChangeState} />
+                  <Saisie
+                    state={state}
+                    setState={setState}
+                    handleChange={handleChangeState}
+                  />
                 </TabPanel>
 
                 <TabPanel value={tab} index={2}>
-                  <Loads state={state} setState={setState} handleChange={handleChangeState} />
+                  <Loads
+                    state={state}
+                    setState={setState}
+                    handleChange={handleChangeState}
+                  />
                   {/* <Results state={state} setState={setState} handleChange={handleChangeState} /> */}
                 </TabPanel>
 
@@ -344,7 +424,11 @@ function RectangularSectionAnalysis({ match }) {
                 )} */}
 
                 <TabPanel value={tab} index={3}>
-                  <Aperçu state={state} setState={setState} handleChange={handleChangeState} />
+                  <Aperçu
+                    state={state}
+                    setState={setState}
+                    handleChange={handleChangeState}
+                  />
                 </TabPanel>
               </div>
             </Grid>
