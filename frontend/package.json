@@ -1,38 +1,69 @@
 {
-  "name": "frontend",
+  "name": "sdk-structure-app",
+  "homepage": ".",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.58",
+    "@material-ui/styles": "^4.11.5",
+    "@tridyme/aec": "0.0.15",
+    "@tridyme/react-components": "0.0.7",
+    "axios": "^1.4.0",
+    "bootstrap": "^4.3.1",
+    "chart.js": "^2.8.0",
+    "clsx": "^1.1.0",
+    "d3-tricontour": "^1.0.2",
+    "env-cmd": "^8.0.2",
+    "history": "^4.10.1",
+    "immutability-helper": "^3.0.0",
+    "immutable": "^4.0.0-rc.12",
+    "mathjs": "^12.0.0",
+    "plotly.js": "^2.26.0",
+    "react": "^16.8.6",
+    "react-burger-menu": "^2.6.13",
+    "react-chartjs-2": "^2.7.6",
+    "react-dom": "^16.8.6",
+    "react-dropzone": "^11.3.4",
+    "react-helmet": "^6.1.0",
+    "react-icons": "^3.5.0",
+    "react-markdown": "^4.2.2",
+    "react-measure": "^2.3.0",
+    "react-number-format": "^5.1.4",
+    "react-plotly.js": "^2.6.0",
+    "react-resizable": "^3.0.4",
+    "react-rnd": "^10.3.3",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^5.0.1",
+    "react-swipeable-views": "^0.13.9",
+    "react-to-print": "^2.14.13",
+    "react-toastify": "^4.4.3",
+    "react-webcam": "^5.0.1",
+    "reactstrap": "^7.1.0",
+    "regression": "^2.0.1",
+    "styled-components": "^5.0.1"
+  },
+  "devDependencies": {
+    "env-cmd": "^8.0.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "env-cmd ./.env.development react-scripts start",
+    "start:federation": "PORT=3005 node ./module-federation/start.js",
+    "start-win:federation": "set PORT=3001&&node ./module-federation/start.js",
+    "build:federation": "CI=false && node ./module-federation/build.js",
+    "build-win:federation": "set  CI=false&&env-cmd ./.env.production&&node ./module-federation/build.js",
+    "build": "CI=false && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "extends": "react-app"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
