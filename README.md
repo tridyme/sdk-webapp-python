@@ -1,3 +1,41 @@
+## Installation des prérequis
+
+### Installation de Python 3.12
+
+### Installation de Node.js
+
+### Installation de Docker
+
+## Initalisation de l'application
+
+```shell
+$ chmod +x init.sh
+```
+
+```shell
+$ ./init.sh
+```
+
+## Lancement de l'application en mode developpement (après initialisation)
+
+```shell
+$ chmod +x dev.sh
+```
+
+```shell
+$ ./dev.sh
+```
+
+## Déploiement de l'application
+
+```shell
+$ chmod +x deploy.sh
+```
+
+```shell
+$ ./deploy.sh
+```
+
 ## Getting started
 
 1/ Création d'un environnement virtuel
@@ -33,14 +71,3 @@ $ uvicorn main:app --port 8000  --reload
 ```
 $ python3 main.py
 ```
-
-## Worker
-
-```
-$ celery -A worker.celery_app worker --loglevel=info --pool=solo
-```
-
-On Windows you may face following error : 
-DLL load failed while importing onnx_cpp2py_export: Une routine d’initialisation d’une bibliothèque de liens dynamiques (DLL) a échoué.
-
-To solve this run winget install --id Microsoft.VCRedist.2015+.x64 --source winget on cmd/shell
