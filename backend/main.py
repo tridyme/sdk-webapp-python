@@ -21,23 +21,34 @@ app.add_middleware(
 build_dir = os.path.join(os.path.dirname(__file__), '../frontend', 'build')
 
 # Serve the static files from the React build directory
-app.mount("/static", StaticFiles(directory=os.path.join(build_dir, 'static')), name="static")
+app.mount("/static", StaticFiles(directory=os.path.join(build_dir,
+                                                        'static')), name="static")
+
 
 @app.get("/")
 async def read_index():
     return FileResponse(os.path.join(build_dir, 'index.html'))
 
+
+@app.get("/remoteEntry.js")
+async def read_index():
+    return FileResponse(os.path.join(build_dir, 'remoteEntry.js'))
+
+
 @app.get("/applications/{applicationId}")
 async def read_index():
     return FileResponse(os.path.join(build_dir, 'index.html'))
+
 
 @app.get("/applications/{applicationId}/models/{modelId}")
 async def read_index():
     return FileResponse(os.path.join(build_dir, 'index.html'))
 
+
 @app.get("/api/data")
 async def get_data():
     return {"message": "Hello from FastAPI!"}
+
 
 @app.post("/api/analysis")
 async def analyze_state(state: dict):

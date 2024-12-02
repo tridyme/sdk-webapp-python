@@ -11,7 +11,7 @@ module.exports = {
   },
   filename: 'remoteEntry.js',
   shared: {
-    ...dependencies,
+    // ...dependencies,
     react: {
       singleton: true,
       requiredVersion: dependencies['react'],
@@ -22,17 +22,11 @@ module.exports = {
     },
     "@material-ui/core": {
       singleton: true,
-
-      requiredVersion: "*",
-    },
-    "@material-ui/icons": {
-      singleton: true,
-
-      requiredVersion: "*",
+      requiredVersion: dependencies["@material-ui/core"]
     },
     "@material-ui/styles": {
       singleton: true,
-      requiredVersion: "*",
+      requiredVersion: dependencies["@material-ui/styles"]
     }
   },
 };
