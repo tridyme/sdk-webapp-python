@@ -48,14 +48,8 @@
     "env-cmd": "^8.0.2"
   },
   "scripts": {
-    "start": "env-cmd ./.env.development react-scripts start",
-    "start:federation": "PORT=3005 node ./module-federation/start.js",
-    "start-win:federation": "set PORT=3001&&node ./module-federation/start.js",
-    "build:federation": "CI=false && node ./module-federation/build.js",
-    "build-win:federation": "set  CI=false&&env-cmd ./.env.production&&node ./module-federation/build.js",
-    "build": "CI=false && react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "node ./module-federation/start.js",
+    "build": "node ./module-federation/build.js"
   },
   "eslintConfig": {
     "extends": "react-app"
