@@ -1,10 +1,12 @@
 ## Installation des prérequis
 
+### Installation de VS Code
+
+### Installation de Git
+
 ### Installation de Python 3.12
 
-### Installation de Node.js
-
-### Installation de Docker
+### Installation de Node.js 22
 
 ## Initalisation de l'application
 

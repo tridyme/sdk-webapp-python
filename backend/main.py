@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
+from bson.objectid import ObjectId
 import os
 
 app = FastAPI()
@@ -48,6 +49,11 @@ async def read_index():
 @app.get("/api/data")
 async def get_data():
     return {"message": "Hello from FastAPI!"}
+
+
+@app.get("/api/generateId")
+async def get_remote_id():
+    return {"Id": str(ObjectId())}  
 
 
 @app.post("/api/analysis")

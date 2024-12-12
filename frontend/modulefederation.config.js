@@ -1,8 +1,6 @@
 const { dependencies } = require('./package.json');
 
-const {
-  REACT_APP_APPLICATION_ID
-} = process.env;
+const { REACT_APP_APPLICATION_ID } = process.env;
 
 module.exports = {
   name: `ID${REACT_APP_APPLICATION_ID}`,
@@ -11,7 +9,7 @@ module.exports = {
   },
   filename: 'remoteEntry.js',
   shared: {
-    // ...dependencies,
+    /*     ...dependencies, */
     react: {
       singleton: true,
       requiredVersion: dependencies['react'],
@@ -20,13 +18,13 @@ module.exports = {
       singleton: true,
       requiredVersion: dependencies['react-dom'],
     },
-    "@material-ui/core": {
+    '@material-ui/core': {
       singleton: true,
-      requiredVersion: dependencies["@material-ui/core"]
+      requiredVersion: dependencies['@material-ui/core'],
     },
-    "@material-ui/styles": {
+    '@material-ui/styles': {
       singleton: true,
-      requiredVersion: dependencies["@material-ui/styles"]
-    }
+      requiredVersion: dependencies['@material-ui/styles'],
+    },
   },
 };
