@@ -1,6 +1,6 @@
 FROM python:3.12-slim
 WORKDIR /app
-COPY .env.development ./
+COPY .env ./
 WORKDIR /app/frontend/build
 COPY frontend/build ./
 RUN ls -al /app/frontend/build && ls -al /app/frontend/build/static

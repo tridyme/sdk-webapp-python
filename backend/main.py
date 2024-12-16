@@ -22,7 +22,7 @@ app.add_middleware(
 )
 
 # Récupération de la variable d'environnement
-env_path = pathlib.Path(__file__).parent.parent / '.env.development'  # Chemin vers .env.development
+env_path = pathlib.Path(__file__).parent.parent / '.env'  # Chemin vers .env.development
 load_dotenv(dotenv_path=env_path)  # Charger les variables d'environnement
 REACT_APP_PLATFORM_API_URL = os.environ.get("REACT_APP_PLATFORM_API_URL")
 if not REACT_APP_PLATFORM_API_URL:
