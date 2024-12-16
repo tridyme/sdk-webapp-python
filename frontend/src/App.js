@@ -79,12 +79,6 @@ const App = () => {
     init();
   }, []);
 
-  const handleBack = () => {
-    console.log('get back');
-    window.location.href = `${REACT_APP_PLATFORM_URL}/applications/ID${REACT_APP_APPLICATION_ID}/models`;
-    // history.push('/applications/ID5899e0aca600741755433909/models')
-  };
-
   return (
     <ThemeProvider theme={theme}>
       <Helmet>
