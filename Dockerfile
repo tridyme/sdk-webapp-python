@@ -1,6 +1,9 @@
 FROM python:3.12-slim
-WORKDIR /app/frontend
+WORKDIR /app
+COPY .env.development ./
+WORKDIR /app/frontend/build
 COPY frontend/build ./
+RUN ls -al /app/frontend/build && ls -al /app/frontend/build/static
 WORKDIR /app/backend
 COPY backend/requirements.txt ./
 RUN pip install -r requirements.txt
