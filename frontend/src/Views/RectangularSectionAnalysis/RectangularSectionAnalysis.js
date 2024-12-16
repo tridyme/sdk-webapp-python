@@ -100,6 +100,8 @@ function a11yProps(index) {
 
 const {
   REACT_APP_LOGO,
+  REACT_APP_APPLICATION_NAME,
+  REACT_APP_APPLICATION_API_URL,
   REACT_APP_PLATFORM_API_URL,
   REACT_APP_PLATFORM_URL,
   REACT_APP_PLATFORM_API_TOKEN,
@@ -114,29 +116,21 @@ function RectangularSectionAnalysis({ match }) {
   if (user != null) {
     userId = user['_id'];
   }
-  const [values, setValues] = React.useState({
-    tab: '1',
-  });
 
   const [state, setState] = useState(initialState);
   const [tab, setTab] = useState(0);
   const [loading, setLoading] = useState(true);
   const [modelId, setModelId] = useState(match.params?.modelId);
-  const [data, setData] = useState();
 
   useEffect(() => {
     const init = async () => {
       let actualState = {};
-      console.log('initialState.data', initialState.data);
-      console.log('modelId', modelId);
       if (modelId) {
         const model = await handleGetModel(modelId);
-        console.log('MODEL', model);
         actualState = model.data;
       } else {
         actualState = initialState;
       }
-      console.log('actualState', actualState);
       const calculatedData = new RectangularSection(
         actualState.data,
       ).analysis();
@@ -154,13 +148,61 @@ function RectangularSectionAnalysis({ match }) {
     init();
   }, []);
 
+  const handleAnalysis = async () => {
+    try {
+      const response = await fetch(
+        `${REACT_APP_APPLICATION_API_URL}/api/analysis`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(state), // Envoie l'état en JSON
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const newState = await response.json();
+      console.log('newState', newState); // Traitez le résultat comme nécessaire
+      if (newState?.data) {
+        const calculatedData = new RectangularSection(newState.data).analysis();
+        console.log('calculatedData ', calculatedData);
+        const updatedState = {
+          ...newState,
+          data: {
+            ...newState.data,
+            ...calculatedData,
+          },
+        };
+        console.log('updatedState ', updatedState);
+        setState(updatedState);
+      }
+    } catch (err) {
+      console.log("Erreur lors de l'envoi de l'état:", err);
+    }
+  };
+
   const handleGetModel = async (modelId) => {
     try {
-      const { data } = await axios.get(
+      const response = await fetch(
         `${REACT_APP_PLATFORM_API_URL}/models/${modelId}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
       );
-      console.log('{ data }', { data });
-      return data;
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const newState = await response.json();
+      return newState;
     } catch (err) {
       console.log('error when get models: ', err);
       return [];
@@ -186,7 +228,7 @@ function RectangularSectionAnalysis({ match }) {
     setState(updatedState);
   };
 
-  const saveAnalysis = async () => {
+  const handleSave = async () => {
     console.log('STATE', state);
     // const platform = new Platform();
     // const data = state;
@@ -195,7 +237,6 @@ function RectangularSectionAnalysis({ match }) {
         project: null,
         name: state.data.projet.value,
         application: `${REACT_APP_APPLICATION_ID}`,
-        applicationName: 'Dalle',
         data: state,
         user: String(userId),
       };
@@ -252,56 +293,18 @@ function RectangularSectionAnalysis({ match }) {
 
   const handleChangeTab = (event, newTab) => {
     setTab(newTab);
-    console.log('tab', tab);
-  };
-
-  const handleGetData = async () => {
-    try {
-      const url = 'http://localhost:8000/api/data';
-      const response = await fetch(url, { method: 'GET' });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      console.log('DATA', data);
-    } catch (err) {
-      console.log('ERROR');
-    }
-  };
-
-  const handlePostAnalysis = async () => {
-    try {
-      const response = await fetch('http://localhost:8000/api/analysis', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(state), // Envoie l'état en JSON
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      console.log('RESULTAT', result); // Traitez le résultat comme nécessaire
-    } catch (err) {
-      console.log("Erreur lors de l'envoi de l'état:", err);
-    }
   };
 
   return (
     <Grid container spacing={3}>
       <Grid item xs={12}>
-        <Button onClick={handleGetData}>API</Button>
-        <Button onClick={handlePostAnalysis}>CALCUL</Button>
         <CardElem
           elevation={0}
           title={
             <ListItem>
               <ListItemAvatar>
                 <Avatar
-                  alt={`EC2-Ferraillage`}
+                  alt={REACT_APP_APPLICATION_NAME}
                   src={AppIcon}
                   style={{
                     borderRadius: '0%',
@@ -316,7 +319,7 @@ function RectangularSectionAnalysis({ match }) {
               <ListItemText
                 primary={
                   <Typography variant="h5" component="h2">
-                    EC2-Ferraillage
+                    {REACT_APP_APPLICATION_NAME}
                   </Typography>
                 }
               />
@@ -324,48 +327,52 @@ function RectangularSectionAnalysis({ match }) {
           }
         >
           <Grid container spacing={3}>
-            {userId && (
-              <>
-                <Grid item sm={6} style={{ textAlign: 'left' }}>
-                  <FormControl className={classes.margin}>
-                    {/* <Input
-                      id="input-with-icon-adornment"
-                      startAdornment={<Typography style={{ fontWeight: 'bold', width: "250px", disableUnderline: true }} >Nom de l'affaire : </Typography>}
-                      value={state.data.projet.value}
-                      inputProps={{ style: { color: "#0082DE" } }}
-                      disableUnderline={true}
-                      onChange={handleChangeProjectData("projet")}
-                    /> */}
-                    <InputElem
-                      data={{
-                        description: "Nom de l'affaire",
-                        value: state.data.projet.value,
-                      }}
-                      onChange={handleChangeProjectData('projet')}
-                      props={{
-                        disableUnderline: true,
-                        disableInputAdornment: true,
-                      }}
-                      style={{ color: '#0082DE' }}
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item sm={6} style={{ textAlign: 'right' }}>
-                  {/* <Button variant="contained" onClick={saveAnalysis} style={{ borderRadius: "0px", backgroundColor: "#FFFFFF", color: "#0082DE", margin: "1em", textTransform: 'none' }}>Sauvegarder</Button> */}
-                  <ButtonElem
-                    label={'Sauvegarder'}
-                    onClick={saveAnalysis}
-                    style={{
-                      borderRadius: '0px',
-                      backgroundColor: '#FFFFFF',
-                      color: '#0082DE',
-                      margin: '1em',
-                      textTransform: 'none',
+            <Grid item sm={6} style={{ textAlign: 'left' }}>
+              {userId && (
+                <FormControl className={classes.margin}>
+                  <InputElem
+                    data={{
+                      description: "Nom de l'affaire",
+                      value: state.data.projet.value,
                     }}
+                    onChange={handleChangeProjectData('projet')}
+                    props={{
+                      disableUnderline: true,
+                      disableInputAdornment: true,
+                    }}
+                    style={{ color: '#0082DE' }}
                   />
-                </Grid>
-              </>
-            )}
+                </FormControl>
+              )}
+            </Grid>
+            <Grid item sm={6} style={{ textAlign: 'right' }}>
+              <ButtonElem
+                label={'Calcul'}
+                onClick={handleAnalysis}
+                style={{
+                  borderRadius: '0px',
+                  backgroundColor: '#FFFFFF',
+                  color: '#0082DE',
+                  margin: '1em',
+                  textTransform: 'none',
+                }}
+              />
+              {userId && (
+                <ButtonElem
+                  label={'Sauvegarder'}
+                  onClick={handleSave}
+                  style={{
+                    borderRadius: '0px',
+                    backgroundColor: '#FFFFFF',
+                    color: '#0082DE',
+                    margin: '1em',
+                    textTransform: 'none',
+                  }}
+                />
+              )}
+            </Grid>
+            {/*               </>
+            )} */}
             <Grid item xs={12}>
               {/* <TabContext value={values.tab} > */}
               <div

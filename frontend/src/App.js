@@ -16,7 +16,7 @@ import {
   ListItem,
   ListItemAvatar,
   Avatar,
-  ListItemText
+  ListItemText,
 } from '@material-ui/core';
 import Icon from './logo.svg';
 import Logo from './logo.svg';
@@ -26,32 +26,43 @@ import LogoApp from './EC2-Ferraillage.svg';
 import GetTheme from './theme';
 
 const Menu = {
-  MenuNavBar: [
-    { text: "", link: "", href: "", icon: "" }
-  ],
+  MenuNavBar: [{ text: '', link: '', href: '', icon: '' }],
   MenuSideBarSup: [
-    { text: "Plateforme", link: "", href: "http://socotec.tridyme.com/dashboard", icon: <DashboardIcon /> },
+    {
+      text: 'Plateforme',
+      link: '',
+      href: 'http://socotec.tridyme.com/dashboard',
+      icon: <DashboardIcon />,
+    },
   ],
   MenuSideBarInf: [
-   
-    { text: "GitHub", link: "", href: "https://github.com/Igor-TriDyme/bolts-app.git", icon: "code" },
+    {
+      text: 'GitHub',
+      link: '',
+      href: 'https://github.com/Igor-TriDyme/bolts-app.git',
+      icon: 'code',
+    },
   ],
 
   MenuSideBarNotion: [
-   
-    { text: "Documentation", link: "", href: "https://www.notion.so/tridyme/CB71-RectangularSection-Calcul-de-pannes-et-poutres-en-bois-3da4109cc8194f47aade5d4cbb554273", icon: "code" },
+    {
+      text: 'Documentation',
+      link: '',
+      href: 'https://www.notion.so/tridyme/CB71-RectangularSection-Calcul-de-pannes-et-poutres-en-bois-3da4109cc8194f47aade5d4cbb554273',
+      icon: 'code',
+    },
   ],
-
 };
 
 const {
   REACT_APP_LOGO,
   REACT_APP_COMPANY,
   REACT_APP_APPLICATION_ID,
-  REACT_APP_PLATFORM_URL
+  REACT_APP_PLATFORM_URL,
 } = process.env;
 
 const App = () => {
+  console.log('REACT_APP_APPLICATION_ID', REACT_APP_APPLICATION_ID);
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const theme = useMemo(
     () => createTheme(GetTheme({ prefersDarkMode })),
@@ -64,16 +75,15 @@ const App = () => {
       console.log('user', userInfo);
       const newUser = JSON.parse(userInfo);
       console.log('newUser', newUser);
-    }
+    };
     init();
   }, []);
 
-
   const handleBack = () => {
-    console.log("get back")
+    console.log('get back');
     window.location.href = `${REACT_APP_PLATFORM_URL}/applications/ID${REACT_APP_APPLICATION_ID}/models`;
     // history.push('/applications/ID5899e0aca600741755433909/models')
-  }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -83,22 +93,36 @@ const App = () => {
       </Helmet>
       <BrowserRouter history={history}>
         <AppContainerElem
-          title={<ListItem>
-            <ListItemAvatar>
-              <Avatar
-                alt={`EC2-Ferraillage`}
-                src={LogoApp}
-                style={{borderRadius:'0%'}}
-              />
-            </ListItemAvatar>
-            <ListItemText primary={`EC2- Ferraillage`} />
-          </ListItem>}
+          title={
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar
+                  alt={`EC2-Ferraillage`}
+                  src={LogoApp}
+                  style={{ borderRadius: '0%' }}
+                />
+              </ListItemAvatar>
+              <ListItemText primary={`EC2- Ferraillage`} />
+            </ListItem>
+          }
           menu={Menu}
         >
           <Switch>
-            <Route exact path={`/applications/ID${REACT_APP_APPLICATION_ID}`} component={RectangularSectionAnalysis} />
-            <Route exact path={`/applications/ID${REACT_APP_APPLICATION_ID}/models/:modelId`} component={RectangularSectionAnalysis} />
-            <Redirect from="/" to={`/applications/ID${REACT_APP_APPLICATION_ID}`} component={RectangularSectionAnalysis}/>
+            <Route
+              exact
+              path={`/applications/ID${REACT_APP_APPLICATION_ID}`}
+              component={RectangularSectionAnalysis}
+            />
+            <Route
+              exact
+              path={`/applications/ID${REACT_APP_APPLICATION_ID}/models/:modelId`}
+              component={RectangularSectionAnalysis}
+            />
+            <Redirect
+              from="/"
+              to={`/applications/ID${REACT_APP_APPLICATION_ID}`}
+              component={RectangularSectionAnalysis}
+            />
           </Switch>
         </AppContainerElem>
       </BrowserRouter>
