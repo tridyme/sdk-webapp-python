@@ -1,19 +1,22 @@
 ## Créer mon application
 
 Ce projet vous permet de créer et de publier vos propres applications de ligne et de les proposer dans la marketplace de <a href="https://www.tridyme.com/fr/" target="_blank">TriDyme</a>.
+Il permet d'intégrer du code en Python.
 
 ## Sommaire (Optional)
 
-- [Installations](#installations)
+- [Installation des prérequis](#installations)
 - [Créer notre première application](#create-my-own-app)
+- [Mode développement](#development)
 - [Ajouter des fonctionnalités](#add-features)
 - [Les composants](#components)
 - [Modification et ajout de composant](#modify-add-components)
 - [Déployer son code sur GitHub](#github)
 - [Mettre son application en ligne](#online-webapp)
+- [Mettre son application en ligne](#online-webapp)
 - [License](#license)
 
-## <a name="installations"></a>Installations
+## <a name="installations"></a>Installation des prérequis
 
 Les prérequis suivants doivent être installé:
 
@@ -66,11 +69,11 @@ Pour l'installer: <a href="https://code.visualstudio.com/Download" target="_blan
 
 ## <a name="create-my-own-app"></a>Créer notre première application
 
-Afin de créer notre première application, commençons par cloner <a href="https://gitlab.com/triazur/tridyme-kit-python.git" target="_blank">tridyme-kit-python</a> grâce à **git** dans le repertoire ou nous souhaitons :
+Afin de créer notre première application, commençons par cloner <a href="https://github.com/tridyme/sdk-webapp-python.git" target="_blank">sdk-webapp-python</a> grâce à **git** dans le repertoire ou nous souhaitons :
 
 ```shell
-$ git clone https://gitlab.com/triazur/tridyme-kit-python.git
-Cloning into 'tridyme-kit-python'...
+$ git clone https://github.com/tridyme/sdk-webapp-python.git
+Cloning into 'sdk-webapp-python'...
 remote: Enumerating objects: 91, done.
 remote: Counting objects: 100% (91/91), done.
 remote: Compressing objects: 100% (76/76), done.
@@ -80,17 +83,57 @@ Unpacking objects: 100% (91/91), done.
 
 ### Démarrage
 
-Une fois le clonage finalisé, vous pouvez renommer le dossier **tridyme-kit-python** comme vous le souhaitez, ici nous l'appelerons **my-first-app**:
+Une fois le clonage finalisé, vous pouvez renommer le dossier **sdk-webapp-python** comme vous le souhaitez, ici nous l'appelerons **my-first-app**:
 
-Puis, entrez dans votre dossier, lancez l'installation des modules **Node.js** via la commande `npm install` et enfin démarrez l'application avec `npm start`:
+Puis, entrez dans votre dossier pour lancer le fichier init.sh qui va initialiser le projet.
 
 ```shell
-$ cd ./my-first-app
-$ npm install
-$ npm start
+$ chmod +x init.sh
+```
+
+```shell
+$ ./init.sh
 ```
 
 Notez que notre application a dû s'ouvrir automatiquement dans notre navigateur (si ce n'est pas le cas, ouvrez un nouvel onglet dans votre navigateur et saisissez l'URL indiquée par la commande dans le terminal, normalement http://localhost:3000/ ).
+
+## <a name="development"></a>Mode développement
+
+En mode développement, il est préférable de lancer le frontend et le backend de manière séparée.
+
+### Lancement du backend
+
+1/ Création d'un environnement virtuel (si ce dernier n'a pas déja été créé)
+
+```shell
+$ python3 -m venv env
+```
+
+2/ Activation de l'environnement virtuel (si ce dernier n'a pas déja été activé)
+
+```shell
+$ source env/bin/activate
+```
+
+3/ Installation des librairies (si ces dernières n'ont pas déja été installé)
+
+Mettre à jour pip:
+
+```shell
+$ pip install --upgrade pip
+```
+
+```shell
+$ python3 -m pip install -r requirements.txt
+```
+
+4/ Lancement du serveur
+
+```
+$ python3 main.py
+```
+
+### Lancement du frontend
 
 Cette application permet de calculer la surface d'un rectangle ainsi que son inertie suivant X.
 
@@ -102,8 +145,6 @@ Afin de modifier notre application, allez dans le dossier `src`.
 On y trouve le point d’entrée de l’application `src/index.js` ainsi que le composant <a href="https://fr.reactjs.org/" target="_blank">**React.js**</a> contenant notre application à savoir `src/Views/MyApp.jsx`.
 
 Cependant afin de rajouter notre calcul, seul les quatres fichiers suivant nous intéressent:
-
-![src](../../../media/triazur-webapp-src-files.png 'src')
 
 - [`calculations.js`](#calculationjs), est le fichier qui contient nos fonctions de calculs, par exemple la fonction permetant de calculer la surface du rectangle
 - [`Inputs.jsx`](#inputsjsx), est le fichier qui affiche nos inputs tels que la hauteur où la largeur du rectangle
@@ -288,84 +329,22 @@ Une fois, les modifications implémentées, vous pouvez déployer votre code sur
 Pour cela, il faut d'abord:
 
 - Créer un compte sur <a href="https://github.com/" target="_blank">GitHub</a>
-
-## <a name="online-webapp"></a>Mettre son application en ligne avec Netlify
-
-## <a name="online-webapp"></a>Mettre son application en ligne avec Netlify
-
-Afin de mettre son application en ligne, nous allons utiliser <a href="https://www.netlify.com/" target="_blank">**Netlify**</a> qui permet de dépoyer des applications de manière gratuite.
-
-Pour cela, il faut d'abord:
-
-- Créer un compte Heroku: <a href="https://signup.heroku.com/login" target="_blank">https://signup.heroku.com/login</a>
-- Puis installer Heroku: <a href="https://devcenter.heroku.com/articles/heroku-cli#download-and-install" target="_blank">https://devcenter.heroku.com/articles/heroku-cli#download-and-install</a>
-
-Puis utiliser **Git** pour deployer l'application sur <a href="https://www.heroku.com/" target="_blank">**Heroku**</a>:
+- Créer un nouveau Repository: exemple **my-first-app** qui va générer une url https://github.com/my-git-account/my-first-app.git
+- Puis intégrer son code dedans:
 
 ```shell
-$ git add .
-$ git commit -m "Added a Procfile."
-$ git push heroku master
-#   Heroku credentials
-$ heroku create
-$ git push heroku master
-#   Launching... done
-#      http://example.herokuapp.com deployed to Heroku
+$ git remote set-url origin https://github.com/my-git-account/my-first-app.git
+$ git push -u origin main --force
+
 ```
 
-Votre application devrait être disponible sur **http://example.herokuapp.com**.
+## <a name="online-webapp"></a>Mettre son application en ligne avec Render
 
-Afin de mettre son application en ligne, nous allons utiliser <a href="https://www.heroku.com/" target="_blank">**Heroku**</a> qui permet de dépoyer des applications de manière gratuite.
+Afin de mettre son application en ligne, nous allons utiliser <a href="https://render.com/" target="_blank">**Render**</a> qui permet de dépoyer des applications de manière gratuite mais avec des interruptions concernant la version gratuite.
 
-Pour cela, il faut d'abord:
+Pour cela, il faut d'abord créer un compte Render à partir de son compte Github.
 
-- Créer un compte Heroku: <a href="https://signup.heroku.com/login" target="_blank">https://signup.heroku.com/login</a>
-- Puis installer Heroku: <a href="https://devcenter.heroku.com/articles/heroku-cli#download-and-install" target="_blank">https://devcenter.heroku.com/articles/heroku-cli#download-and-install</a>
-
-Puis utiliser **Git** pour deployer l'application sur <a href="https://www.heroku.com/" target="_blank">**Heroku**</a>:
-
-```shell
-$ git add .
-$ git commit -m "Added a Procfile."
-$ heroku login
-#   Heroku credentials
-$ heroku create
-$ git push heroku master
-#   Launching... done
-#      http://example.herokuapp.com deployed to Heroku
-```
-
-Votre application devrait être disponible sur **http://example.herokuapp.com**.
-
-## Initalisation de l'application
-
-```shell
-$ chmod +x init.sh
-```
-
-```shell
-$ ./init.sh
-```
-
-## Lancement de l'application en mode developpement (après initialisation)
-
-```shell
-$ chmod +x dev.sh
-```
-
-```shell
-$ ./dev.sh
-```
-
-## Déploiement de l'application
-
-```shell
-$ chmod +x deploy.sh
-```
-
-```shell
-$ ./deploy.sh
-```
+Une fois déployée, l'application devrait être disponible sur **https://my-first-app.onrender.com**.
 
 ## Getting started
 
