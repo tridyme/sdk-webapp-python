@@ -14,7 +14,7 @@
 - [Modification et ajout de composant](#modify-add-components)
 - [Déployer son code sur GitHub](#github)
 - [Mettre son application en ligne](#online-webapp)
-- [Mettre son application en ligne](#online-webapp)
+- [Ajouter son application dans la plateforme TriDyme](#platform-webapp)
 - [License](#license)
 
 ## <a name="installations"></a>Installation des prérequis
