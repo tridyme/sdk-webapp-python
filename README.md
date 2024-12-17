@@ -88,7 +88,10 @@ Unpacking objects: 100% (91/91), done.
 
 Une fois le clonage finalisé, vous pouvez renommer le dossier **sdk-webapp-python** comme vous le souhaitez, ici nous l'appelerons **my-first-app**:
 
-Puis, entrez dans votre dossier pour lancer le fichier init.sh qui va initialiser le projet.
+Puis, entrez dans votre dossier:
+
+- Sur Mac / Linux
+  pour lancer le fichier init.sh qui va initialiser le projet.
 
 ```shell
 $ chmod +x init.sh
@@ -96,6 +99,13 @@ $ chmod +x init.sh
 
 ```shell
 $ ./init.sh
+```
+
+- Sur Windows:
+  pour lancer le fichier init.ps1 qui va initialiser le projet.
+
+```shell
+$ ./init.ps1
 ```
 
 Notez que notre application a dû s'ouvrir automatiquement dans notre navigateur (si ce n'est pas le cas, ouvrez un nouvel onglet dans votre navigateur et saisissez l'URL indiquée par la commande dans le terminal, normalement http://localhost:3000/ ).
@@ -109,13 +119,22 @@ En mode développement, il est préférable de lancer le frontend et le backend 
 1/ Création d'un environnement virtuel (si ce dernier n'a pas déja été créé)
 
 ```shell
+$ cd backend
 $ python3 -m venv env
 ```
 
 2/ Activation de l'environnement virtuel (si ce dernier n'a pas déja été activé)
 
+Sur Mac / Linux:
+
 ```shell
 $ source env/bin/activate
+```
+
+Sur Windows:
+
+```shell
+$ .\env\Scripts\activate
 ```
 
 3/ Installation des librairies (si ces dernières n'ont pas déja été installé)
@@ -132,11 +151,18 @@ $ python3 -m pip install -r requirements.txt
 
 4/ Lancement du serveur
 
-```
+```shell
 $ python3 main.py
 ```
 
 ### Lancement du frontend
+
+```shell
+$ cd frontend
+$ npm run start
+```
+
+Le frontend devrait se lancer sur http://localhost:3000
 
 Cette application permet de calculer la surface d'un rectangle ainsi que son inertie suivant X.
 
