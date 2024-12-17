@@ -1,7 +1,9 @@
 ## Créer mon application
 
 > Ce projet vous permet de créer et de publier vos propres applications de ligne et de les proposer dans la marketplace de <a href="https://www.tridyme.com/fr/" target="_blank">TriDyme</a>.
+
 > Il vous permet de conserver le controle de votre code, ce dernier n'étant pas présent dans la marketplace ou sur les serveurs de TriDyme
+
 > Il permet d'intégrer du code en Python.
 
 ## Sommaire (Optional)
