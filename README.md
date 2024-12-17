@@ -1,7 +1,8 @@
 ## Créer mon application
 
-Ce projet vous permet de créer et de publier vos propres applications de ligne et de les proposer dans la marketplace de <a href="https://www.tridyme.com/fr/" target="_blank">TriDyme</a>.
-Il permet d'intégrer du code en Python.
+> Ce projet vous permet de créer et de publier vos propres applications de ligne et de les proposer dans la marketplace de <a href="https://www.tridyme.com/fr/" target="_blank">TriDyme</a>.
+> Il vous permet de conserver le controle de votre code, ce dernier n'étant pas présent dans la marketplace ou sur les serveurs de TriDyme
+> Il permet d'intégrer du code en Python.
 
 ## Sommaire (Optional)
 
@@ -346,4 +347,18 @@ Pour cela, il faut d'abord créer un compte Render à partir de son compte Githu
 
 Une fois déployée, l'application devrait être disponible sur **https://my-first-app.onrender.com**.
 
+## <a name="platform-webapp"></a>Ajouter son application dans la plateforme TriDyme
+
+Afin d'ajouter votre application dans la plateforme TriDyme, connectez-vous.
+Puis dans l'onglet **Account**, cliquez sur **New Application**:
+![platform-application-new](./ressources/platform-application-new.png)
+
+Puis renseignez les informations concernant votre application et cliquez sur **Ajout**:
 ![platform-application-details](./ressources/platform-application-details.png)
+
+## License
+
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
+
+- **[MIT license](http://opensource.org/licenses/mit-license.php)**
+- Copyright 2024 © <a href="http://tridyme.com" target="_blank">TriDyme</a>.
