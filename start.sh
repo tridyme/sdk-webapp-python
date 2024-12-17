@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Étape 1: Mise en route de Python
-echo "Initialisation de l'environnement Python..."
+# Étape 1: Lancement du serveur python
+echo "Lancement du serveur backend."
 cd backend
-python3 -m venv env
 source env/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
+python3
 
 
 # Étape 2: Mise en route de React.js
