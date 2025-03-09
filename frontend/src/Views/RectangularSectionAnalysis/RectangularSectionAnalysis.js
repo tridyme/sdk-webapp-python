@@ -344,7 +344,7 @@ function RectangularSectionAnalysis({ match }) {
             </Grid>
             <Grid item sm={6} style={{ textAlign: 'right' }}>
               <ButtonElem
-                label={'Calcul'}
+                label={'Calcul TOTO'}
                 onClick={handleAnalysis}
                 style={{
                   borderRadius: '0px',
