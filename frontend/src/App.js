@@ -20,7 +20,7 @@ import {
 } from '@material-ui/core';
 import Icon from './logo.svg';
 import Logo from './logo.svg';
-import RectangularSectionAnalysis from './Views/RectangularSectionAnalysis/RectangularSectionAnalysis';
+import SectionAnalysis from './Views/SectionAnalysis/SectionAnalysis';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import LogoApp from './EC2-Ferraillage.svg';
 import GetTheme from './theme';
@@ -35,23 +35,7 @@ const Menu = {
       icon: <DashboardIcon />,
     },
   ],
-  MenuSideBarInf: [
-    {
-      text: 'GitHub',
-      link: '',
-      href: 'https://github.com/Igor-TriDyme/bolts-app.git',
-      icon: 'code',
-    },
-  ],
-
-  MenuSideBarNotion: [
-    {
-      text: 'Documentation',
-      link: '',
-      href: 'https://www.notion.so/tridyme/CB71-RectangularSection-Calcul-de-pannes-et-poutres-en-bois-3da4109cc8194f47aade5d4cbb554273',
-      icon: 'code',
-    },
-  ],
+  MenuSideBarInf: [],
 };
 
 const {
@@ -105,17 +89,17 @@ const App = () => {
             <Route
               exact
               path={`/applications/ID${REACT_APP_APPLICATION_ID}`}
-              component={RectangularSectionAnalysis}
+              component={SectionAnalysis}
             />
             <Route
               exact
               path={`/applications/ID${REACT_APP_APPLICATION_ID}/models/:modelId`}
-              component={RectangularSectionAnalysis}
+              component={SectionAnalysis}
             />
             <Redirect
               from="/"
               to={`/applications/ID${REACT_APP_APPLICATION_ID}`}
-              component={RectangularSectionAnalysis}
+              component={SectionAnalysis}
             />
           </Switch>
         </AppContainerElem>

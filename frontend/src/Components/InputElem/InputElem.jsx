@@ -7,13 +7,13 @@ import {
   InputAdornment,
   FormControl,
   TextField,
-  Typography
+  Typography,
 } from '@material-ui/core';
 import ToolTips from '../ToolTips';
 import { NumericFormat } from 'react-number-format';
 // import './InputElem.css';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -33,40 +33,42 @@ const useStyles = makeStyles(theme => ({
   },
   inputAdornment: {
     // paddingRight: '1em',
-    color: 'black'
-  }
+    color: 'black',
+  },
 }));
 
-const InputElem = ({
-  text,
-  symbol,
-  value,
-  unit,
-  onChange
-}) => {
+const InputElem = ({ data, onChange }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      {/* <FormControl
-        className={clsx(classes.margin, classes.withoutLabel, classes.textField)}
-      variant="outlined"
-      > */}
-        <InputLabel htmlFor="outlined-adornment-amount">{symbol}</InputLabel>
-        <div style={{display : 'flex'}}>
-        <NumericFormat 
+      <InputLabel htmlFor="outlined-adornment-amount">{data?.label}</InputLabel>
+      <div style={{ display: 'flex' }}>
+        <NumericFormat
           customInput={TextField}
           variant="outlined"
-          inputProps={{style: { textAlign: 'center', backgroundColor:'white', height:'1px'}}}
+          inputProps={{
+            style: {
+              textAlign: 'center',
+              backgroundColor: 'white',
+              height: '1px',
+            },
+          }}
           className={onChange && classes.input}
-          value={value}
-          classes={{input: classes.input}}
+          value={data?.value}
+          classes={{ input: classes.input }}
           onChange={onChange}
         />
-        </div>
-        <div style={{display: 'flex', justifyContent:'center', alignItems:'center', marginLeft :'5px'}}> 
-          <Typography >{unit}</Typography>
-        </div>
-      {/* </FormControl> */}
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginLeft: '5px',
+        }}
+      >
+        <Typography>{data?.unit?.label}</Typography>
+      </div>
     </div>
   );
 };
