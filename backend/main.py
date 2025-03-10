@@ -94,11 +94,7 @@ if ENVIRONMENT != "development":
     @app.get("/")
     async def read_index():
         return FileResponse(os.path.join(build_dir, 'index.html'))
-    
-    @app.get("/remoteEntry.js")
-    async def read_remote_entry():
-        return FileResponse(os.path.join(build_dir, 'remoteEntry.js'))
-    
+        
     @app.get("/applications/{applicationId}")
     async def read_application(applicationId: str):
         return FileResponse(os.path.join(build_dir, 'index.html'))
@@ -108,11 +104,31 @@ if ENVIRONMENT != "development":
         return FileResponse(os.path.join(build_dir, 'index.html'))
 
 
+@app.get("/remoteEntry.js")
+async def read_remote_entry():
+    if ENVIRONMENT != "development":
+        return FileResponse(os.path.join(build_dir, 'remoteEntry.js'))
+    else:
+        # En développement, proxy vers le serveur React
+        async with httpx.AsyncClient() as client:
+            try:
+                url = "http://localhost:3000/remoteEntry.js"
+                response = await client.get(url, follow_redirects=True)
+                return HTMLResponse(
+                    content=response.content,
+                    status_code=response.status_code,
+                    headers={k: v for k, v in response.headers.items() 
+                             if k.lower() not in ("content-encoding", "transfer-encoding")}
+                )
+            except httpx.RequestError:
+                return HTMLResponse(content="Error loading remoteEntry.js", status_code=500)
+
+
 # Les routes d'API restent inchangées
 @app.get("/api/generateId")
 async def get_remote_id():
     from bson.objectid import ObjectId
-    return {"Id": str(ObjectId())}  
+    return {"Id": str(ObjectId())} 
 
 @app.post("/api/analysis")
 async def analyze_state(state: dict):
