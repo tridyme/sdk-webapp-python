@@ -6,7 +6,7 @@ cd backend
 source env/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
-python3
+python3 main.py
 
 
 # Étape 2: Mise en route de React.js
