@@ -373,7 +373,11 @@ Afin de mettre son application en ligne, nous allons utiliser <a href="https://r
 
 Pour cela, il faut d'abord créer un compte Render à partir de son compte Github.
 Puis se connecter avec son compte Github:
-![platform-application-new](./ressources/deployment-render-login.png)
+![deployment-render-login](./ressources/deployment-render-login.png)
+
+![deployment-render-web-service](./ressources/deployment-render-web-service.png)
+
+![deployment-render-git](./ressources/deployment-render-git.png)
 
 Une fois déployée, l'application devrait être disponible sur **https://my-first-app.onrender.com**.
 
