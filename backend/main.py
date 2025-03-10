@@ -134,7 +134,7 @@ async def get_remote_id():
 async def analyze_state(state: dict):
     # Effectuer le calcul sur l'état reçu
     print('state', state['data'])
-    state['data']['h']['value'] += 3
+    state['data']['h']['value'] += 1
     return state
 
 if __name__ == "__main__":
