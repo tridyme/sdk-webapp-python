@@ -372,6 +372,7 @@ $ git push -u origin main --force
 Afin de mettre son application en ligne, nous allons utiliser <a href="https://render.com/" target="_blank">**Render**</a> qui permet de dépoyer des applications de manière gratuite mais avec des interruptions concernant la version gratuite.
 
 Pour cela, il faut d'abord créer un compte Render à partir de son compte Github.
+Puis se connecter avec son compte Github:
 ![platform-application-new](./ressources/deployment-render-login.png)
 
 Une fois déployée, l'application devrait être disponible sur **https://my-first-app.onrender.com**.
