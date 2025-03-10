@@ -355,18 +355,19 @@ function RectangularSectionAnalysis({ match }) {
                   textTransform: 'none',
                 }}
               />
-
-              <ButtonElem
-                label={'Sauvegarder'}
-                onClick={handleSave}
-                style={{
-                  borderRadius: '0px',
-                  backgroundColor: '#FFFFFF',
-                  color: '#0082DE',
-                  margin: '1em',
-                  textTransform: 'none',
-                }}
-              />
+              {userId && (
+                <ButtonElem
+                  label={'Sauvegarder'}
+                  onClick={handleSave}
+                  style={{
+                    borderRadius: '0px',
+                    backgroundColor: '#FFFFFF',
+                    color: '#0082DE',
+                    margin: '1em',
+                    textTransform: 'none',
+                  }}
+                />
+              )}
             </Grid>
             {/*               </>
             )} */}
