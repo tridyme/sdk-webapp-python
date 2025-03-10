@@ -231,13 +231,13 @@ function RectangularSectionAnalysis({ match }) {
     // const data = state;
     try {
       const model = {
-        project: null,
+        /*    project: null, */
         name: state.data.projet.value,
         application: `${REACT_APP_APPLICATION_ID}`,
         data: state,
         user: String(userId),
       };
-
+      console.log('model', model);
       if (modelId) {
         const updatedModel = { _id: modelId, ...model };
         const { data } = await axios.post(
@@ -251,6 +251,7 @@ function RectangularSectionAnalysis({ match }) {
           `${REACT_APP_PLATFORM_API_URL}/models/addModel`,
           newModel,
         );
+
         const newModelId = data._id;
         history.push(
           `/applications/ID${REACT_APP_APPLICATION_ID}/models/${newModelId}`,
@@ -344,7 +345,7 @@ function RectangularSectionAnalysis({ match }) {
             </Grid>
             <Grid item sm={6} style={{ textAlign: 'right' }}>
               <ButtonElem
-                label={'Calcul TOTO'}
+                label={'Calcul'}
                 onClick={handleAnalysis}
                 style={{
                   borderRadius: '0px',
@@ -354,19 +355,18 @@ function RectangularSectionAnalysis({ match }) {
                   textTransform: 'none',
                 }}
               />
-              {userId && (
-                <ButtonElem
-                  label={'Sauvegarder'}
-                  onClick={handleSave}
-                  style={{
-                    borderRadius: '0px',
-                    backgroundColor: '#FFFFFF',
-                    color: '#0082DE',
-                    margin: '1em',
-                    textTransform: 'none',
-                  }}
-                />
-              )}
+
+              <ButtonElem
+                label={'Sauvegarder'}
+                onClick={handleSave}
+                style={{
+                  borderRadius: '0px',
+                  backgroundColor: '#FFFFFF',
+                  color: '#0082DE',
+                  margin: '1em',
+                  textTransform: 'none',
+                }}
+              />
             </Grid>
             {/*               </>
             )} */}
