@@ -41,6 +41,7 @@
     "react-toastify": "^4.4.3",
     "react-webcam": "^5.0.1",
     "reactstrap": "^7.1.0",
+    "recharts": "^2.15.1",
     "regression": "^2.0.1",
     "styled-components": "^5.0.1"
   },
