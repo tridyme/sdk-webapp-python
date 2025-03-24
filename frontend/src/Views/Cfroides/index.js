@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Tabs, Tab, Box, Typography } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import Button from '@material-ui/core/Button';
-// import CardElem from '../../Components/CardElem/CardElem';
 import { makeStyles } from '@material-ui/core/styles';
 import Saisie from './Scenes/Saisie/Saisie';
-import Hypotheses from './Scenes/Hypotheses/Hypotheses';
 import initialState from './Utils/initialState';
 // import { TabContext, TabPanel } from '@material-ui/lab';
-import Loads from './Scenes/Loads/Loads';
 import Results from './Scenes/Results/Results';
-import Aperçu from './Scenes/Aperçu/Aperçu';
-import RectangularSection from './Utils/Calculations/RectangularSection';
-import AppIcon from '../../EC2-Ferraillage.svg';
+import AppIcon from '../../logo.svg';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -105,7 +98,7 @@ const {
   REACT_APP_APPLICATION_ID,
 } = process.env;
 
-function RectangularSectionAnalysis({ match }) {
+function Cfroides({ match }) {
   const classes = useStyles();
   // const { modelId } = match.params;
   const user = JSON.parse(localStorage.getItem('user'));
@@ -128,18 +121,7 @@ function RectangularSectionAnalysis({ match }) {
       } else {
         actualState = initialState;
       }
-      const calculatedData = new RectangularSection(
-        actualState.data,
-      ).analysis();
-      const updatedState = {
-        ...actualState,
-        data: {
-          ...actualState.data,
-          ...calculatedData,
-        },
-      };
-      console.log('updatedState', updatedState);
-      setState(updatedState);
+      setState(actualState);
       setLoading(false);
     };
     init();
@@ -147,6 +129,52 @@ function RectangularSectionAnalysis({ match }) {
 
   const handleAnalysis = async () => {
     try {
+      const { data } = state;
+      const requiredKeys = [
+        'length',
+        'width',
+        'height',
+        'interiortemp',
+        'exteriortemp',
+        'ceilingtemp',
+        'floortemp',
+        'basetime',
+        'baseKM1',
+        'baseKM2',
+        'baseKM3',
+        'baseKM4',
+        'baseKPlafond',
+        'baseKSol',
+        'QuBa',
+        'QuSt',
+        'TINTR',
+        'TST',
+        'C1',
+        'CRESP',
+        'CL',
+        'C2',
+        'TCongel',
+        'PECLAIRAGE',
+        'DECLAIRAGE',
+        'TRA',
+        'NIND',
+        'TIND',
+        'Hrint',
+        'Hrext',
+      ];
+
+      const missingKeys = requiredKeys.filter(
+        (key) =>
+          data[key].value === undefined ||
+          data[key].value === null ||
+          data[key].value === '',
+      );
+
+      if (missingKeys.length > 0) {
+        alert(`Les clés suivantes sont manquantes : ${missingKeys.join(', ')}`);
+        return;
+      }
+
       const response = await fetch(
         `${REACT_APP_APPLICATION_API_URL}/api/analysis`,
         {
@@ -163,18 +191,16 @@ function RectangularSectionAnalysis({ match }) {
       }
 
       const newState = await response.json();
-      console.log('newState', newState); // Traitez le résultat comme nécessaire
-      if (newState?.data) {
-        const calculatedData = new RectangularSection(newState.data).analysis();
-        console.log('calculatedData ', calculatedData);
+
+      if (newState) {
         const updatedState = {
-          ...newState,
+          ...state,
           data: {
-            ...newState.data,
-            ...calculatedData,
+            ...state.data,
+            ...newState,
           },
         };
-        console.log('updatedState ', updatedState);
+
         setState(updatedState);
       }
     } catch (err) {
@@ -206,27 +232,7 @@ function RectangularSectionAnalysis({ match }) {
     }
   };
 
-  const handleChangeProjectData = (prop) => (event) => {
-    const newData = {
-      ...state.data,
-      [prop]: {
-        ...state.data[prop],
-        value: event.target.value,
-      },
-    };
-    const updatedState = {
-      ...state,
-      data: {
-        ...state.data,
-        ...newData,
-      },
-    };
-
-    setState(updatedState);
-  };
-
   const handleSave = async () => {
-    console.log('STATE', state);
     // const platform = new Platform();
     // const data = state;
     try {
@@ -268,24 +274,30 @@ function RectangularSectionAnalysis({ match }) {
   };
 
   const handleChangeState = (prop) => (event) => {
-    console.log('event.target.type', event.target.type);
-    const newData = {
-      ...state.data,
-      [prop]: {
-        ...state.data[prop],
-        value: Number(event.target.value),
-      },
-    };
-    const calculatedData = new RectangularSection(newData).analysis();
-
     const updatedState = {
       ...state,
       data: {
-        ...newData,
-        ...calculatedData,
+        ...state.data,
+        [prop]: {
+          ...state.data[prop],
+          value: Number(event.target.value),
+        },
       },
     };
-    console.log('updatedState ', updatedState);
+    setState(updatedState);
+  };
+
+  const handleChangeProject = (prop) => (event) => {
+    const updatedState = {
+      ...state,
+      data: {
+        ...state.data,
+        [prop]: {
+          ...state.data[prop],
+          value: event.target.value,
+        },
+      },
+    };
     setState(updatedState);
   };
 
@@ -333,7 +345,7 @@ function RectangularSectionAnalysis({ match }) {
                       description: "Nom de l'affaire",
                       value: state.data.projet.value,
                     }}
-                    onChange={handleChangeProjectData('projet')}
+                    onChange={handleChangeProject('projet')}
                     props={{
                       disableUnderline: true,
                       disableInputAdornment: true,
@@ -387,11 +399,8 @@ function RectangularSectionAnalysis({ match }) {
                   aria-label="scrollable auto tabs example"
                   indicatorColor="primary"
                 >
-                  <Tab label="Hypothèses" {...a11yProps(0)} />
-                  <Tab label="Saisie" {...a11yProps(1)} />
-                  <Tab label="Calcul" {...a11yProps(2)} />
-                  {/* <Tab label="Résultats"/> */}
-                  <Tab label="Aperçu" {...a11yProps(3)} />
+                  <Tab label="Saisie" {...a11yProps(0)} />
+                  <Tab label="Résultats" {...a11yProps(1)} />
                 </Tabs>
                 {loading && userId ? (
                   <div className={classes.overlay}>
@@ -400,12 +409,7 @@ function RectangularSectionAnalysis({ match }) {
                 ) : (
                   <></>
                 )}
-
                 <TabPanel value={tab} index={0}>
-                  <Hypotheses />
-                </TabPanel>
-
-                <TabPanel value={tab} index={1}>
                   <Saisie
                     state={state}
                     setState={setState}
@@ -413,23 +417,8 @@ function RectangularSectionAnalysis({ match }) {
                   />
                 </TabPanel>
 
-                <TabPanel value={tab} index={2}>
-                  <Loads
-                    state={state}
-                    setState={setState}
-                    handleChange={handleChangeState}
-                  />
-                  {/* <Results state={state} setState={setState} handleChange={handleChangeState} /> */}
-                </TabPanel>
-
-                {/* {tab === 3 && (
-                  <TabPanel value={tab} index={1}>
-                    <Results state={state} setState={setState} handleChange={handleChangeState}/>
-                  </TabPanel>
-                )} */}
-
-                <TabPanel value={tab} index={3}>
-                  <Aperçu
+                <TabPanel value={tab} index={1}>
+                  <Results
                     state={state}
                     setState={setState}
                     handleChange={handleChangeState}
@@ -444,4 +433,4 @@ function RectangularSectionAnalysis({ match }) {
   );
 }
 
-export default RectangularSectionAnalysis;
+export default Cfroides;

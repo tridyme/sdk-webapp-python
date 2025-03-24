@@ -18,51 +18,27 @@ import {
   Avatar,
   ListItemText,
 } from '@material-ui/core';
-import Icon from './logo.svg';
-import Logo from './logo.svg';
-import RectangularSectionAnalysis from './Views/RectangularSectionAnalysis/RectangularSectionAnalysis';
+import Cfroides from './Views/Cfroides';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import LogoApp from './EC2-Ferraillage.svg';
+import LogoApp from './logo.svg';
 import GetTheme from './theme';
 
 const Menu = {
   MenuNavBar: [{ text: '', link: '', href: '', icon: '' }],
-  MenuSideBarSup: [
-    {
-      text: 'Plateforme',
-      link: '',
-      href: 'http://socotec.tridyme.com/dashboard',
-      icon: <DashboardIcon />,
-    },
-  ],
-  MenuSideBarInf: [
-    {
-      text: 'GitHub',
-      link: '',
-      href: 'https://github.com/Igor-TriDyme/bolts-app.git',
-      icon: 'code',
-    },
-  ],
-
-  MenuSideBarNotion: [
-    {
-      text: 'Documentation',
-      link: '',
-      href: 'https://www.notion.so/tridyme/CB71-RectangularSection-Calcul-de-pannes-et-poutres-en-bois-3da4109cc8194f47aade5d4cbb554273',
-      icon: 'code',
-    },
-  ],
+  MenuSideBarSup: [],
+  MenuSideBarInf: [],
+  MenuSideBarNotion: [],
 };
 
 const {
   REACT_APP_LOGO,
   REACT_APP_COMPANY,
+  REACT_APP_APPLICATION_NAME,
   REACT_APP_APPLICATION_ID,
   REACT_APP_PLATFORM_URL,
 } = process.env;
 
 const App = () => {
-  console.log('REACT_APP_APPLICATION_ID', REACT_APP_APPLICATION_ID);
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const theme = useMemo(
     () => createTheme(GetTheme({ prefersDarkMode })),
@@ -82,8 +58,8 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Helmet>
-        <title>{`TriDyme | Applications`}</title>
-        <link rel="icon" type="image/png" href={Logo} sizes="16x16" />
+        <title>{`${REACT_APP_COMPANY} | Applications`}</title>
+        <link rel="icon" type="image/png" href={REACT_APP_LOGO} sizes="16x16" />
       </Helmet>
       <BrowserRouter history={history}>
         <AppContainerElem
@@ -91,12 +67,12 @@ const App = () => {
             <ListItem>
               <ListItemAvatar>
                 <Avatar
-                  alt={`EC2-Ferraillage`}
+                  alt={`${REACT_APP_APPLICATION_NAME}`}
                   src={LogoApp}
                   style={{ borderRadius: '0%' }}
                 />
               </ListItemAvatar>
-              <ListItemText primary={`EC2- Ferraillage`} />
+              <ListItemText primary={`${REACT_APP_APPLICATION_NAME}`} />
             </ListItem>
           }
           menu={Menu}
@@ -105,17 +81,17 @@ const App = () => {
             <Route
               exact
               path={`/applications/ID${REACT_APP_APPLICATION_ID}`}
-              component={RectangularSectionAnalysis}
+              component={Cfroides}
             />
             <Route
               exact
               path={`/applications/ID${REACT_APP_APPLICATION_ID}/models/:modelId`}
-              component={RectangularSectionAnalysis}
+              component={Cfroides}
             />
             <Redirect
               from="/"
               to={`/applications/ID${REACT_APP_APPLICATION_ID}`}
-              component={RectangularSectionAnalysis}
+              component={Cfroides}
             />
           </Switch>
         </AppContainerElem>

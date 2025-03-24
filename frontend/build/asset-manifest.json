@@ -17,7 +17,7 @@
     "static/js/619.ec47db2b.chunk.js": "./static/js/619.ec47db2b.chunk.js",
     "service-worker.js": "./service-worker.js",
     "static/media/logo.svg": "./static/media/logo.b5984640403c893ef7ae7b8d69e4ba00.svg",
-    "static/media/EC2-Ferraillage.svg": "./static/media/EC2-Ferraillage.a1ada7d5c87aad114a6499047a154d46.svg",
+    "static/media/logo.svg": "./static/media/EC2-Ferraillage.a1ada7d5c87aad114a6499047a154d46.svg",
     "index.html": "./index.html",
     "main.a98a3443.js.map": "./static/js/main.a98a3443.js.map",
     "remoteEntry.js.map": "./remoteEntry.js.map",
@@ -35,7 +35,5 @@
     "26.1abffe71.chunk.css.map": "./static/css/26.1abffe71.chunk.css.map",
     "619.ec47db2b.chunk.js.map": "./static/js/619.ec47db2b.chunk.js.map"
   },
-  "entrypoints": [
-    "static/js/main.a98a3443.js"
-  ]
+  "entrypoints": ["static/js/main.a98a3443.js"]
 }
